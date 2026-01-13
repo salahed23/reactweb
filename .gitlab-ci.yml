@@ -1,19 +1,25 @@
-image: node:18
+image: node:20
 
 stages:
   - install
   - test
   - build
 
+default:
+  before_script:
+    - cd React/Monprojet
+
 cache:
+  key:
+    files:
+      - React/Monprojet/package-lock.json
   paths:
     - React/Monprojet/node_modules/
 
 install_dependencies:
   stage: install
   script:
-    - cd React/Monprojet
-    - npm install
+    - npm ci
   artifacts:
     paths:
       - React/Monprojet/node_modules/
@@ -24,20 +30,22 @@ test:
   dependencies:
     - install_dependencies
   script:
-    - cd Monprojet
-    - npm run test:run
+    - npm run test:coverage
   coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    when: always
+    paths:
+      - React/Monprojet/coverage/
 
 build:
   stage: build
   dependencies:
     - install_dependencies
   script:
-    - cd Monprojet
     - npm run build
   artifacts:
     paths:
-      - Monprojet/dist/
+      - React/Monprojet/dist/
     expire_in: 1 week
   only:
     - main
