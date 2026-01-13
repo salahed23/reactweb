@@ -24,7 +24,7 @@ test:
   dependencies:
     - install_dependencies
   script:
-    - cd React/Monprojet
+    - cd Monprojet
     - npm run test:run
   coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
 
@@ -33,11 +33,11 @@ build:
   dependencies:
     - install_dependencies
   script:
-    - cd React/Monprojet
+    - cd Monprojet
     - npm run build
   artifacts:
     paths:
-      - React/Monprojet/dist/
+      - Monprojet/dist/
     expire_in: 1 week
   only:
     - main
